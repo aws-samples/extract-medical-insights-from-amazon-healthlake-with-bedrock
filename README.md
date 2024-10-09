@@ -71,7 +71,7 @@ To stop the `tmux` session, in your ec2 terminal Press `Ctrl+b`, then `d` to det
 
 ## Application UI
 
-<img src="images/fhir.PNG" width="600"/>
+<img src="images/fhir.PNG" width="1000"/>
 
 **Configurable Parameters:**
 1. `SQL Model`: Select the model for generating SQL
