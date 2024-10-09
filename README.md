@@ -39,6 +39,7 @@ This project utilizes Amazon Bedrock to summarize patient data stored in Amazon 
     - SQL query results across each FHIR resources is sent back to the user for transperancy into the summary process.
 9. Follow-up Interaction:
     - The user can perform question-answering (QnA) on the summarized patient (each FHIR resource summary) data using Amazon Bedrock Model.
+
 This workflow demonstrates an efficient use of various AWS services to retrieve, process, and summarize healthcare data in FHIR format, providing users with both detailed and overview information about a patient's health records. Different Bedrock models can be used for each step that involves an LLM to optimize the worflow for speed and accuracy.
 
 
