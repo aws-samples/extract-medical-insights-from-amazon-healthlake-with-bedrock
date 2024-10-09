@@ -14,7 +14,7 @@ This project utilizes Amazon Bedrock to summarize patient data stored in Amazon 
 
 ## Workflow
 
-<img src="images/fhir-flow.png" width="600"/>
+<img src="images/fhir-flow.png" width="1000"/>
 
 1. User Initiation:
   - The process begins with a user requesting summarization for a specific patient and selected FHIR resources.
