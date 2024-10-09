@@ -17,28 +17,28 @@ This project utilizes Amazon Bedrock to summarize patient data stored in Amazon 
 <img src="images/fhir-flow.png" width="1000"/>
 
 1. User Initiation:
-  - The process begins with a user requesting summarization for a specific patient and selected FHIR resources.
+    - The process begins with a user requesting summarization for a specific patient and selected FHIR resources.
 2. Schema Retrieval:
-  - Amazon Athena communicates with Amazon HealthLake to get schema definitions for the selected FHIR resources
+    - Amazon Athena communicates with Amazon HealthLake to get schema definitions for the selected FHIR resources
 3. Query Generation:
-  - Amazon Bedrock Model receives the schema definition and sample rows from Athena.
-  - It then generates SQL queries for each of the selected FHIR resources.
+    - Amazon Bedrock Model receives the schema definition and sample rows from Athena.
+    - It then generates SQL queries for each of the selected FHIR resources.
 4. Query Execution:
-  - The generated SQL queries are sent back to Amazon Athena.
-  - Self-healing is enabled for debugging failed SQL execution. 
+    - The generated SQL queries are sent back to Amazon Athena.
+    - Self-healing is enabled for debugging failed SQL execution. 
 5. Data Retrieval:
-  - Amazon Athena executes these SQL queries on the data stored in Amazon HealthLake.
+    - Amazon Athena executes these SQL queries on the data stored in Amazon HealthLake.
 6. Result Processing:
-  - The SQL query results for each FHIR resource are sent to another instance of Amazon Bedrock Models.
+    - The SQL query results for each FHIR resource are sent to another instance of Amazon Bedrock Models.
 7. Summary Generation:
-  - Amazon Bedrock Model generates summaries for each FHIR resource based on the query results.
-  - Amazon Bedrock Model genrates a consolidated summary across the FHIR resource summaries to provide a concise summary of the patient's medical history.
+    - Amazon Bedrock Model generates summaries for each FHIR resource based on the query results.
+    - Amazon Bedrock Model genrates a consolidated summary across the FHIR resource summaries to provide a concise summary of the patient's medical history.
 8. Data Return to User:
-  - The summaries of each FHIR resource are sent back to the user.
-  - Additionally, a wholistic summary across all selected FHIR resources is provided to the user.
-  - SQL query results across each FHIR resources is sent back to the user for transperancy into the summary process.
+    - The summaries of each FHIR resource are sent back to the user.
+    - Additionally, a wholistic summary across all selected FHIR resources is provided to the user.
+    - SQL query results across each FHIR resources is sent back to the user for transperancy into the summary process.
 9. Follow-up Interaction:
-  - The user can perform question-answering (QnA) on the summarized patient (each FHIR resource summary) data using Amazon Bedrock Model.
+    - The user can perform question-answering (QnA) on the summarized patient (each FHIR resource summary) data using Amazon Bedrock Model.
 This workflow demonstrates an efficient use of various AWS services to retrieve, process, and summarize healthcare data in FHIR format, providing users with both detailed and overview information about a patient's health records. Different Bedrock models can be used for each step that involves an LLM to optimize the worflow for speed and accuracy.
 
 
