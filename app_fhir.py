@@ -3,8 +3,6 @@ import streamlit as st
 import time
 import boto3
 import pandas as pd
-from anthropic import Anthropic
-CLAUDE = Anthropic()
 import multiprocessing
 import subprocess
 import shutil
@@ -104,7 +102,7 @@ def read_s3_file_to_df(bucket_name,key, max_retries=5, initial_delay=1):
 
         except s3.exceptions.NoSuchKey:
             if retry == max_retries - 1:
-                raise FileNotFoundError(f"File {s3_uri} not found after maximum retries.")
+                raise FileNotFoundError(f"File {key} not found after maximum retries.")
             else:
                 delay *= 1.5  # Exponential backoff
                 print(f"File not found, retrying in {delay} seconds...")
@@ -296,9 +294,9 @@ def chunk_csv_rows(csv_rows, max_token_per_chunk=10000):
     current_chunk = []
     current_token_count = 0
     chunks = []
-    header_token=CLAUDE.count_tokens(header)
+    header_token=len(header.split(","))
     for row in csv_rows:
-        token = CLAUDE.count_tokens(row)  # Assuming that the row is a space-separated CSV row.
+        token = len(row.split(","))   # Assuming that the row is a space-separated CSV row.
 
         if current_token_count + token+header_token <= max_token_per_chunk:
             current_chunk.append(row)
@@ -430,7 +428,7 @@ If there is no patient identifier or patient-related information in the given ta
 <sql>
 n/a
 </sql>'''
-    # input_token=CLAUDE.count_tokens(prompts)
+
     print("bedrock")
     q_s=query_llm(params[1],prompts,system_prompt)
     idx1 = q_s.index('<sql>')
@@ -473,7 +471,7 @@ n/a
         print(message)
         csv_result=message
         fhir_table={params[0]:pd.DataFrame()}
-    # input_token=CLAUDE.count_tokens(csv_result)
+
     input_token=len(csv_result.split(','))
     if input_token>100000:    
         csv_rows=csv_result.split('\n')
