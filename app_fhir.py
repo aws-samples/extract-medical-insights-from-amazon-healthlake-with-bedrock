@@ -25,7 +25,7 @@ config = Config(
         max_attempts = 10
     )
 )
-BEDROCK=boto3.client(service_name='bedrock-runtime',region_name='us-east-1',config=config)
+BEDROCK=boto3.client(service_name='bedrock-runtime',region_name='us-west-2',config=config)
 st.set_page_config(page_icon=None, layout="wide")
 with open('pricing.json','r',encoding='utf-8') as f:
     pricing_file = json.load(f)
@@ -430,7 +430,7 @@ If there is no patient identifier or patient-related information in the given ta
 <sql>
 n/a
 </sql>'''
-    input_token=CLAUDE.count_tokens(prompts)
+    # input_token=CLAUDE.count_tokens(prompts)
     print("bedrock")
     q_s=query_llm(params[1],prompts,system_prompt)
     idx1 = q_s.index('<sql>')
@@ -473,7 +473,8 @@ n/a
         print(message)
         csv_result=message
         fhir_table={params[0]:pd.DataFrame()}
-    input_token=CLAUDE.count_tokens(csv_result)
+    # input_token=CLAUDE.count_tokens(csv_result)
+    input_token=len(csv_result.split(','))
     if input_token>100000:    
         csv_rows=csv_result.split('\n')
         chunk_rows=chunk_csv_rows(csv_rows, max_token_per_chunk=50000)
@@ -657,13 +658,14 @@ def app_sidebar():
         st.write('---')
         st.write('### User Preference')
         models=[
- "anthropic.claude-3-sonnet-20240229-v1:0",
-  "anthropic.claude-3-5-sonnet-20240620-v1:0",
-  "anthropic.claude-3-haiku-20240307-v1:0",
+  "us.anthropic.claude-3-5-sonnet-20240620-v1:0",
+"us.anthropic.claude-3-5-haiku-20241022-v1:0",
+ "us.anthropic.claude-3-sonnet-20240229-v1:0",
+  "us.anthropic.claude-3-haiku-20240307-v1:0",
   'anthropic.claude-instant-v1', 
   'anthropic.claude-v2']
-        model=st.selectbox('Model', models, index=1)
-        summary_model=st.selectbox('Summary Model', models, index=0)
+        model=st.selectbox('Model', models, index=0)
+        summary_model=st.selectbox('Summary Model', models, index=1)
         db=get_database_list('AwsDataCatalog')
         database=st.selectbox('Select Database',options=db)#,index=6)
         # st.write(database)
