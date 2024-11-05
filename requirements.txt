@@ -2,4 +2,4 @@ boto3
 pandas
 streamlit
 anthropic
-pydantic
+pydantic==1.10.8
