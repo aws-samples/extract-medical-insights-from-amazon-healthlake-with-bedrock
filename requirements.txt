@@ -1,4 +1,4 @@
 boto3
 pandas
 streamlit
-pydantic==1.10.8
+pydantic==1.10.13
